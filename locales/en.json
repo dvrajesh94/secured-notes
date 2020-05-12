@@ -1,0 +1,10 @@
+{
+    "login": {
+      "welcome": "Welcome to our notes app {{name}}!",
+      "login_button": "Login",
+      "signup_button": "Sign Up"
+    },
+    "user_profile": {
+      "title": "Your Profile"  
+    }
+  }

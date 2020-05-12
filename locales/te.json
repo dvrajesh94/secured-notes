@@ -1,0 +1,10 @@
+{
+    "login": {
+      "welcome": "హాయ్ {{name}} మా నోట్స్ యాప్ కి స్వాగతం",
+      "login_button": "లాగిన్",
+      "signup_button": "సైన్ అప్"
+    },
+    "user_profile": {
+      "title": "మీ ప్రొఫైల్"  
+    }
+  }

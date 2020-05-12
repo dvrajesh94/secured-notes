@@ -1,0 +1,14 @@
+[
+  {
+    "label": "Notes",
+    "icon": "file-text-outline"
+  },
+  {
+    "label": "Password Manager",
+    "icon": "lock-outline"
+  },
+  {
+    "label": "Settings",
+    "icon": "settings-2-outline"
+  }
+]
