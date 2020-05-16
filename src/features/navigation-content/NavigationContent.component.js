@@ -1,18 +1,25 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text, Icon, useTheme} from '@ui-kitten/components';
 import navigationOptions from './NavigationContent.json';
+import {selectNavigationContent} from './NavigationContent.actions';
 import packageJson from '../../../package.json';
 
 const NavigationContent = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
+
+  const selectedContent = type => {
+    dispatch(selectNavigationContent(type));
+  };
   return (
     <View style={styles.listContainer}>
       {navigationOptions.map(option => (
         <TouchableOpacity
           key={option.icon}
           style={styles.listButton}
-          onPress={() => console.log('option.label')}>
+          onPress={() => selectedContent(option.label.toLowerCase())}>
           <Icon
             name={option.icon}
             fill={theme['background-alternative-color-4']}

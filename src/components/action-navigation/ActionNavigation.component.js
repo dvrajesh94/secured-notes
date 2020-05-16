@@ -8,10 +8,8 @@ import {
   Animated,
   PanResponder,
   Platform,
-  Easing,
 } from 'react-native';
 import {withStyles} from '@ui-kitten/components';
-import NavigationContent from './NavigationContent.component';
 
 const SUPPORTED_ORIENTATIONS = [
   'portrait',
@@ -31,6 +29,21 @@ class ActionNavigation extends Component {
     };
 
     this.createPanResponder(props);
+  }
+
+  componentDidUpdate({height: prevHeight}) {
+    if (!this.state.modalVisible) {
+      return;
+    }
+    const {height: currentHeight, openDuration} = this.props;
+
+    if (prevHeight !== currentHeight) {
+      Animated.timing(this.state.animatedHeight, {
+        useNativeDriver: false,
+        toValue: currentHeight,
+        duration: openDuration,
+      }).start();
+    }
   }
 
   setModalVisible(visible, props) {
@@ -118,7 +131,6 @@ class ActionNavigation extends Component {
       keyboardAvoidingViewEnabled,
       eva: {style: styles},
     } = this.props;
-    console.log('styles-eva', styles);
     const {animatedHeight, pan, modalVisible} = this.state;
     const panStyle = {
       transform: pan.getTranslateTransform(),
@@ -132,7 +144,7 @@ class ActionNavigation extends Component {
         supportedOrientations={SUPPORTED_ORIENTATIONS}
         onRequestClose={() => {
           if (closeOnPressBack) {
-            this.setModalVisible(false);
+            this.close();
           }
         }}>
         <KeyboardAvoidingView
@@ -200,7 +212,7 @@ ActionNavigation.defaultProps = {
   customStyles: {},
   onClose: null,
   onOpen: null,
-  children: <NavigationContent />,
+  children: <View />,
 };
 
 export default withStyles(ActionNavigation, theme => ({
