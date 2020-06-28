@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {Dimensions} from 'react-native';
 import {useDispatch} from 'react-redux';
-import * as eva from '@eva-design/eva';
 import TopNavigation from '../top-navigation/TopNavigation.component';
 import NotesLayout from '../notes-layout/NotesLayout.component';
 import ActionSheet from '../action-navigation/ActionNavigation.component';
@@ -12,10 +11,7 @@ import {
   isPortrait,
 } from '../../utils/responsiveDimensions';
 
-console.log('eva1', eva);
-
 export default ({navigation, ...rest}) => {
-  console.log('navigation', navigation, rest);
   let actionSheetRef = null;
   const dispatch = useDispatch();
   const [defaultActionSheetHeight, setDefaultActionSheetHeight] = useState(

@@ -1,43 +1,44 @@
-import React, {useState} from 'react';
-import {View} from 'react-native';
-import {
-  Text,
-  Layout,
-  IndexPath,
-  Select,
-  SelectItem,
-  SelectGroup,
-} from '@ui-kitten/components';
-import {useDispatch} from 'react-redux';
+import React from 'react';
+import {View, StyleSheet} from 'react-native';
+import {Layout, Select, SelectItem} from '@ui-kitten/components';
+import {useDispatch, useSelector} from 'react-redux';
+import {selectedTheme} from '../settings/Settings.action';
+import {themeMap} from '../../constants/ThemeConstants';
 
 const Settings = () => {
-  const themes = ['Material light', 'Material dark', 'Eva light', 'Eva dark'];
-  const [selectedIndex, setSelectedIndex] = useState(new IndexPath(0));
-  const [selectedValue, setSelectedValue] = useState(themes[0]);
+  const theme = useSelector(state =>
+    state && state.settings ? state.settings.currentTheme : {},
+  );
   const dispatch = useDispatch();
-  // const selectedIndex = new IndexPath(0);
-  const selectedTheme = index => {
-    console.log('index', index);
-    setSelectedValue(themes[index.row]);
-    setSelectedIndex(index);
-    dispatch()
+  const setTheme = index => {
+    dispatch(selectedTheme({index: index, value: themeMap[index.row]}));
   };
   return (
     <Layout level="4">
-      <View style={{height: '100%'}}>
-        {/* <Text>Content....</Text> */}
+      <View style={styles.view}>
         <Select
-          selectedIndex={selectedIndex}
-          onSelect={index => selectedTheme(index)}
-          value={selectedValue}
+          style={styles.select}
+          selectedIndex={theme.index}
+          onSelect={index => setTheme(index)}
+          value={theme.value.title}
           label="Theme">
-          {themes.map((theme, idx) => (
-            <SelectItem title={theme} key={idx} />
+          {themeMap.map((themeObj, idx) => (
+            <SelectItem title={themeObj.title} key={idx} />
           ))}
         </Select>
       </View>
     </Layout>
   );
 };
+
+const styles = StyleSheet.create({
+  select: {
+    flex: 1,
+    margin: 10,
+  },
+  view: {
+    height: '100%',
+  },
+});
 
 export default Settings;
