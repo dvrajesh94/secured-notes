@@ -31,21 +31,6 @@ class ActionNavigation extends Component {
     this.createPanResponder(props);
   }
 
-  componentDidUpdate({height: prevHeight}) {
-    if (!this.state.modalVisible) {
-      return;
-    }
-    const {height: currentHeight, openDuration} = this.props;
-
-    if (prevHeight !== currentHeight) {
-      Animated.timing(this.state.animatedHeight, {
-        useNativeDriver: false,
-        toValue: currentHeight,
-        duration: openDuration,
-      }).start();
-    }
-  }
-
   setModalVisible(visible, props) {
     const {
       height,
@@ -224,15 +209,16 @@ export default withStyles(ActionNavigation, theme => ({
     backgroundColor: 'transparent',
   },
   container: {
-    backgroundColor: theme['background-basic-color-4'],
+    backgroundColor: theme['background-basic-color-3'],
     height: 0,
     overflow: 'hidden',
+    borderRadius: 10,
   },
   draggableContainer: {
     width: '100%',
     alignItems: 'center',
     backgroundColor: 'transparent',
-    borderRadius: 10,
+    borderRadius: 15,
   },
   draggableIcon: {
     width: 35,

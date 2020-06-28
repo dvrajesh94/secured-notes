@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {
   Text,
@@ -43,7 +44,12 @@ const TopNavigationComponent = props => {
   const renderLeftActions = () => (
     <>
       <TopNavigationAction icon={HamBurgerIcon} onPress={toggleMenu} />
-      <Text status="basic" category="h6" appearance="alternative" {...props}>
+      <Text
+        status="basic"
+        category="h6"
+        appearance="alternative"
+        style={{fontWeight: 'bold'}}
+        {...props}>
         N o t e s
       </Text>
     </>

@@ -1,8 +1,12 @@
 import React from 'react';
-import {Text} from '@ui-kitten/components';
+import SettingsHeader from './SettingsHeader.component';
+import SettingsContent from './SettingsContent.component';
 
-const NotesLayout = () => {
-  return <Text>Settings</Text>;
-};
+const Settings = props => (
+  <>
+    <SettingsHeader {...props} />
+    <SettingsContent />
+  </>
+);
 
-export default NotesLayout;
+export default Settings;
