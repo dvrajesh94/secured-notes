@@ -14,3 +14,5 @@ A secured notes native mobile app built using react
         * Run the app.
         * Enjoy...!
     * In the secured-notes directory run `npm run android` to run for android, **IOS is not supported yet**.
+* For hassle free setup follow the steps in the link except for initializing the project.
+    * https://reactnative.dev/docs/environment-setup
