@@ -1,45 +1,53 @@
-import React, {useState} from 'react';
-import * as eva from '@eva-design/eva';
-import {
-  ApplicationProvider,
-  IconRegistry,
-  RadioGroup,
-  Radio,
-} from '@ui-kitten/components';
-import {EvaIconsPack} from '@ui-kitten/eva-icons';
+import React, {useState, useEffect} from 'react';
+import {Dimensions} from 'react-native';
+import {useDispatch} from 'react-redux';
 import TopNavigation from '../top-navigation/TopNavigation.component';
 import NotesLayout from '../notes-layout/NotesLayout.component';
 import ActionSheet from '../action-navigation/ActionNavigation.component';
-import material_dark from '../../themes/material_dark';
-import material_light from '../../themes/material_light';
+import NavigationContent from '../../features/navigation-content/NavigationContent.component';
+import {selectNavigationContent} from '../../features/navigation-content/NavigationContent.actions';
+import {
+  heightPercentageToDP,
+  isPortrait,
+} from '../../utils/responsiveDimensions';
 
-console.log('eva1', eva);
-const themeArray = [material_dark, material_light, eva.dark, eva.light];
-
-export default () => {
+export default ({navigation, ...rest}) => {
   let actionSheetRef = null;
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const dispatch = useDispatch();
+  const [defaultActionSheetHeight, setDefaultActionSheetHeight] = useState(
+    heightPercentageToDP(isPortrait() ? '30%' : '55%'),
+  );
+
+  const onContentSelection = option => {
+    dispatch(selectNavigationContent(option));
+    navigation.navigate(option);
+    actionSheetRef.close();
+  };
+
+  const onOrientationChange = () => {
+    setDefaultActionSheetHeight(
+      heightPercentageToDP(isPortrait() ? '30%' : '55%'),
+    );
+  };
+
+  useEffect(() => {
+    Dimensions.addEventListener('change', onOrientationChange);
+    return () => {
+      Dimensions.removeEventListener('change', onOrientationChange);
+    };
+  });
+
   return (
     <>
-      <IconRegistry icons={EvaIconsPack} />
-      <ApplicationProvider {...eva} theme={themeArray[selectedIndex]}>
-        <TopNavigation hamburgerClicked={() => actionSheetRef.open()} />
-        <RadioGroup
-          selectedIndex={selectedIndex}
-          onChange={index => setSelectedIndex(index)}>
-          <Radio>Material dark</Radio>
-          <Radio>Material light</Radio>
-          <Radio>Eva dark</Radio>
-          <Radio>Eva light</Radio>
-        </RadioGroup>
-        <NotesLayout />
-        <ActionSheet
-          ref={ref => {
-            actionSheetRef = ref;
-          }}
-          height={230}
-        />
-      </ApplicationProvider>
+      <TopNavigation hamburgerClicked={() => actionSheetRef.open()} />
+      <NotesLayout />
+      <ActionSheet
+        ref={ref => {
+          actionSheetRef = ref;
+        }}
+        height={defaultActionSheetHeight}>
+        {<NavigationContent optionSelected={onContentSelection} />}
+      </ActionSheet>
     </>
   );
 };
